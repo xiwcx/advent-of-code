@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert";
-import { getTotalDistance, getSimilarityScore } from "./01.ts";
+import { getTotalDistance, getSimilarityScore } from "./main.ts";
 import { example, myInput } from "./data.ts";
 
 Deno.test("gets total distance", () => {

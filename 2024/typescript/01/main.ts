@@ -1,3 +1,6 @@
+/**
+ * https://adventofcode.com/2024/day/1
+ */
 export function getTotalDistance(input: string): number {
   const values = input.split("\n");
   const lVals: number[] = [];
@@ -20,6 +23,9 @@ export function getTotalDistance(input: string): number {
   }, 0);
 }
 
+/**
+ * https://adventofcode.com/2024/day/1#part2
+ */
 export function getSimilarityScore(input: string): number {
   let total = 0;
   const columns = input.split("\n");
