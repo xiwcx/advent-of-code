@@ -1,5 +1,5 @@
-type direction = [x: number, y: number];
-const directions: direction[] = [
+type coordinate = [x: number, y: number];
+const directions: coordinate[] = [
   [-1, -1],
   [-1, 0],
   [-1, 1],
@@ -16,7 +16,7 @@ function isMatch(
   rows: string[],
   rq: number,
   cq: number,
-  d: direction,
+  d: coordinate,
   x: number,
   y: number
 ): boolean {
@@ -66,7 +66,7 @@ export function partOne(input: string): number {
 
 // =====
 
-type directionPair = [direction, direction];
+type directionPair = [coordinate, coordinate];
 const forwardSlant: directionPair = [
   [-1, -1],
   [1, 1],
@@ -84,9 +84,11 @@ function isSamMatch(
   x: number,
   y: number
 ): boolean {
-  const [firstX, firstY]: direction = [x + d[0][0], y + d[0][1]];
-  const [secondX, secondY]: direction = [x + d[1][0], y + d[1][1]];
+  // get relative coordinates
+  const [firstX, firstY]: coordinate = [x + d[0][0], y + d[0][1]];
+  const [secondX, secondY]: coordinate = [x + d[1][0], y + d[1][1]];
 
+  // short-circuit if anything is out of bounds, could have been single condition, but yikes
   if (0 > firstX || firstX >= cq || 0 > firstY || firstY >= rq) return false;
   if (0 > secondX || secondX >= cq || 0 > secondY || secondY >= rq)
     return false;
@@ -94,8 +96,12 @@ function isSamMatch(
   const firstLetter = rows[firstX][firstY];
   const secondLetter = rows[secondX][secondY];
 
-  if (firstLetter === "S" && secondLetter === "M") return true;
-  if (firstLetter === "M" && secondLetter === "S") return true;
+  // again, could have been single condi
+  if (
+    (firstLetter === "S" && secondLetter === "M") ||
+    (firstLetter === "M" && secondLetter === "S")
+  )
+    return true;
 
   return false;
 }
