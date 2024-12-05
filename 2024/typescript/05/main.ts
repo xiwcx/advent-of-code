@@ -50,3 +50,49 @@ export function partOne(input: string): number {
 
   return count;
 }
+
+// =======
+
+const isRuleMatch = (a: Rule, b: Rule) => a[0] === b[0] && a[1] === b[1];
+
+function sortBatch(batch: number[], rules: Rule[]): number[] {
+  const batchCopy: number[] = Array.from(batch);
+
+  while (true) {
+    let isSorted = true;
+
+    for (let i = 1; i < batchCopy.length; i++) {
+      const prev = batchCopy[i - 1];
+      const curr = batchCopy[i];
+
+      if (rules.find((r) => isRuleMatch([curr, prev], r))) {
+        isSorted = false;
+
+        [batchCopy[i], batchCopy[i - 1]] = [batchCopy[i - 1], batchCopy[i]];
+      }
+    }
+
+    if (isSorted) return batchCopy;
+  }
+}
+
+/**
+ * inspiration from https://www.youtube.com/watch?v=LA4RiCDPUlI
+ *
+ * https://adventofcode.com/2024/day/5#part2
+ */
+export function partTwo(input: string): number {
+  const { rules, batches } = processInput(input);
+
+  let count: number = 0;
+
+  for (const batch of batches) {
+    if (!isInOrder(batch, rules)) {
+      const sortedBatch = sortBatch(batch, rules);
+
+      count += sortedBatch[Math.floor(sortedBatch.length / 2)];
+    }
+  }
+
+  return count;
+}
