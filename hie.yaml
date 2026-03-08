@@ -1,0 +1,6 @@
+cradle:
+  cabal:
+    - path: "./2025/src"
+      component: "lib:x2025"
+    - path: "./2025/test"
+      component: "test:x2025-test"

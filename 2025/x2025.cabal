@@ -1,0 +1,37 @@
+cabal-version:      3.0
+name:               x2025
+version:            0.1.0.0
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             Welch Canavan
+maintainer:         2304131+xiwcx@users.noreply.github.com
+build-type:         Simple
+extra-doc-files:    CHANGELOG.md
+
+common warnings
+    ghc-options: -Wall
+
+library
+    import:           warnings
+    default-language: Haskell2010
+    hs-source-dirs:   src
+    build-depends:    base >=4.18 && <5
+    exposed-modules:
+        MyLib
+      , Day01
+
+test-suite x2025-test
+    import:           warnings
+    default-language: Haskell2010
+    default-extensions: ImportQualifiedPost
+    type:             exitcode-stdio-1.0
+    hs-source-dirs:   test
+    main-is:          Main.hs
+    ghc-options:      -F -pgmF=skeletest-preprocessor
+    build-tool-depends: skeletest:skeletest-preprocessor
+    other-modules:
+        Day01Spec
+    build-depends:
+        base >=4.18 && <5
+      , skeletest
+      , x2025
