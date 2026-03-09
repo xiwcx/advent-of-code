@@ -55,6 +55,12 @@ Haskell is lazily evaluated. This is a feature, but it has sharp edges:
 - Large `Int`/`Integer` accumulations in lazy fields will leak. Use `{-# UNPACK #-}` or `!` bang patterns in data constructors.
 - When a `Map` or `Set` is updated in a loop, use `Data.Map.Strict` not `Data.Map.Lazy`.
 
+**String vs Text vs ByteString:**
+- `String` (`[Char]`) is a linked list of characters — O(n) for most operations and cache-unfriendly. Avoid it for any non-trivial text processing.
+- Avoid roundtripping through `String` when working with `Data.Text` or `Data.ByteString`. Each conversion (`T.pack`/`T.unpack`, `BS.pack`/`BS.unpack`) allocates a fresh intermediate structure.
+- Prefer type-native operations: e.g. `Data.Text.Lazy.Builder` to render into `Text`, `Data.Attoparsec.Text` to parse from `Text` — both avoid the `String` intermediate entirely.
+- Flag any `T.unpack`/`T.pack` roundtrips and ask whether a Text-native alternative exists.
+
 **Data structures:**
 - Prefer `Data.IntMap.Strict` / `Data.IntSet` over `Data.Map Int` / `Data.Set Int` for Int-keyed maps (faster, lower overhead).
 - For 2D grids, consider `Data.Array` (O(1) lookup) over `Map (Int,Int)` when the grid is dense.
