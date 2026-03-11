@@ -21,6 +21,7 @@ library
         MyLib
       , Day01
       , Day02
+      , Day03
 
 test-suite x2025-test
     import:           warnings
@@ -34,6 +35,7 @@ test-suite x2025-test
     other-modules:
         Day01Spec
       , Day02Spec
+      , Day03Spec
     build-depends:
         base >=4.18 && <5
       , text

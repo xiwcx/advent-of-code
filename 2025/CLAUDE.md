@@ -80,7 +80,17 @@ Haskell is lazily evaluated. This is a feature, but it has sharp edges:
 
 ## Project Structure
 
-Solutions live in `src/<day>/main.hs`. Each module is named after its day (e.g., `module One`). Tests live alongside in `main.spec.hs`.
+Solutions live in `src/DayNN.hs` (e.g. `src/Day03.hs`), module named `DayNN`. Specs live in `test/DayNNSpec.hs`.
+
+## Scaffolding a New Day
+
+To scaffold day N, create three things:
+
+1. `src/DayNN.hs` — stub module exporting `handleInput :: T.Text -> Either String Int`
+2. `test/DayNNSpec.hs` — spec with example and real input test cases (see `Day02Spec.hs` for pattern)
+3. `assets/data-NN-example.txt` and `assets/data-NN.txt` — empty input files
+
+Then register in `x2025.cabal`: add `DayNN` to `exposed-modules` and `DayNNSpec` to `other-modules`.
 
 ## Reference
 
