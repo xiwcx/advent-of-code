@@ -13,4 +13,4 @@ spec = do
 
     it "parses real input" $ do
       contents <- readFile "./assets/data-03.txt"
-      handleInput contents `shouldSatisfy` P.right (P.eq 0)
+      handleInput contents `shouldSatisfy` P.right (P.eq 17100)

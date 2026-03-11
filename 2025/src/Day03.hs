@@ -1,16 +1,15 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Day03 (handleInput) where
 
+import Data.Bifunctor (first)
 import Data.Char (ord)
 
-data ParseError = NotANumber String
+newtype ParseError = NotANumber String
 
 stringToInts :: String -> Either ParseError [Int]
-stringToInts s = case traverse charToInt s of
-  Left _ -> Left $ NotANumber s
-  Right xs -> Right xs
+stringToInts s = first (const $ NotANumber s) (traverse charToInt s)
 
+-- this could be safe, but there are no zeroes in the
+-- input data, i am only concerned with 1-9
 charToInt :: Char -> Either ParseError Int
 charToInt c
   | n > 0 && n <= 9 = Right n
@@ -18,21 +17,22 @@ charToInt c
   where
     n = ord c - ord '0'
 
+numDigits :: Int -> Int
+numDigits n
+  | n < 10 = 1
+  | otherwise = 1 + numDigits (n `div` 10)
+
 combineInts :: Int -> Int -> Int
-combineInts a b = a * (10 ^ length (show b)) + b
+combineInts a b = (a * 10 ^ numDigits b) + b
 
 findJoltage :: [Int] -> Int
 findJoltage is =
-  let lastIndex = length is - 1
-      tenCandidates = take lastIndex is
-      ten = maximum tenCandidates
-      oneCandidates = drop 1 . snd $ break (== ten) is
-      one = maximum oneCandidates
+  let ten = maximum $ init is
+      one = maximum . drop 1 $ dropWhile (/= ten) is
    in combineInts ten one
 
 handleInput :: String -> Either ParseError Int
-handleInput s = case parsedInput of
-  Left e -> Left e
-  Right xs -> Right . sum $ map findJoltage xs
+-- handleInput s = fmap (sum . map findJoltage) parsedInput
+handleInput s = sum . map findJoltage <$> parsedInput
   where
     parsedInput = traverse stringToInts . filter (not . null) $ lines s
