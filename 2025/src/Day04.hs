@@ -4,20 +4,19 @@ import qualified Data.Set as S
 
 type Point = (Int, Int)
 
-getNeighbors :: Point -> S.Set Point
+getNeighbors :: Point -> [Point]
 getNeighbors (r, c) =
-  S.fromList
-    [ (r + deltaR, c + deltaC)
-    | deltaR <- [-1, 0, 1]
-    , deltaC <- [-1, 0, 1]
-    , (deltaR, deltaC) /= (0, 0)
-    ]
+  [ (r + deltaR, c + deltaC)
+  | deltaR <- [-1, 0, 1]
+  , deltaC <- [-1, 0, 1]
+  , (deltaR, deltaC) /= (0, 0)
+  ]
 
-neighborCount :: Point -> S.Set Point -> Int
-neighborCount a b = S.size $ (getNeighbors a) `S.intersection` b
+neighborCount :: S.Set Point -> Point -> Int
+neighborCount s x = length . filter (flip S.member s) $ getNeighbors x
 
 handleInput :: String -> Int
-handleInput input = S.size $ S.filter (\x -> neighborCount x parsedInput < 4) parsedInput
+handleInput input = S.size $ S.filter ((4 >) . neighborCount parsedInput) parsedInput
  where
   parsedInput =
     S.fromList
