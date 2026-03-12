@@ -17,11 +17,13 @@ library
     hs-source-dirs:   src
     build-depends:    base >=4.18 && <5
                     , text
+                    , containers
     exposed-modules:
         MyLib
       , Day01
       , Day02
       , Day03
+      , Day04
 
 test-suite x2025-test
     import:           warnings
@@ -36,8 +38,10 @@ test-suite x2025-test
         Day01Spec
       , Day02Spec
       , Day03Spec
+      , Day04Spec
     build-depends:
         base >=4.18 && <5
       , text
       , skeletest
+      , containers
       , x2025
