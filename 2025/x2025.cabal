@@ -25,6 +25,7 @@ library
       , Day03
       , Day04
       , Day05
+      , Day06
 
 test-suite x2025-test
     import:           warnings
@@ -41,6 +42,7 @@ test-suite x2025-test
       , Day03Spec
       , Day04Spec
       , Day05Spec
+      , Day06Spec
     build-depends:
         base >=4.18 && <5
       , text
